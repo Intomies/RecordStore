@@ -11,65 +11,134 @@ import database.dao.ChinookDatabase;
 import model.Artist;
 
 public class ArtistDao {
-    private ChinookDatabase db = new ChinookDatabase();
+	private ChinookDatabase db = new ChinookDatabase();
 
-    public Artist getArtist(long id) {
-        Connection conn = db.connect();
-        PreparedStatement statement = null;
-        ResultSet results = null;
+	public Artist findArtist(long id) {
+		Connection conn = db.connect();
+		PreparedStatement statement = null;
+		ResultSet results = null;
 
-        try {
-            statement = conn.prepareStatement("SELECT * FROM Artist WHERE ArtistId = ?");
-            statement.setLong(1, id);
-            results = statement.executeQuery();
+		try {
+			statement = conn.prepareStatement("SELECT * FROM Artist WHERE ArtistId = ?");
+			statement.setLong(1, id);
+			results = statement.executeQuery();
 
-            if (results.next()) {
-                String name = results.getString("Name");
-                long artistId = results.getLong("ArtistId");
+			if (results.next()) {
+				String name = results.getString("Name");
+				long artistId = results.getLong("ArtistId");
+				long albumCount = 0;
 
-                return new Artist(artistId, name);
-            } else {
-                return null;
-            }
+				return new Artist(artistId, name, albumCount);
+			} else {
+				return null;
+			}
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            db.close(results, statement, conn);
-        }
-    }
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			db.close(results, statement, conn);
+		}
+	}
 
-    public List<Artist> getAllArtists() {
-        Connection conn = db.connect();
-        PreparedStatement statement = null;
-        ResultSet results = null;
-        List<Artist> artists = new ArrayList<>();
+	public List<Artist> findAllArtists() {
+		Connection conn = db.connect();
+		PreparedStatement statement = null;
+		ResultSet results = null;
+		List<Artist> artists = new ArrayList<>();
 
-        try {
-            // 1. Muodostetaan kysely
-            statement = conn.prepareStatement("SELECT * FROM Artist ORDER BY Name");
+		try {
+			// 1. Create the SQL statement
+			statement = conn.prepareStatement("SELECT ArtistId, Name, "
+					+ "(SELECT COUNT(*) FROM Album WHERE ArtistId = Artist.ArtistId) AS AlbumCount " 
+					+ "FROM Artist "
+					+ "ORDER BY Name");
 
-            // Suoritetaan kysely tietokantaa vasten
-            results = statement.executeQuery();
+			// 2. Execute the statement and get results to local variable
+			results = statement.executeQuery();
 
-            while (results.next()) {
-                // 2. Muutetaan saadut rivit Artist-olioiksi
-                long id = results.getLong("ArtistId");
-                String name = results.getString("Name");
+			while (results.next()) {
+				// 3. Transform data from DB into Java objects
+				long id = results.getLong("ArtistId");
+				String name = results.getString("Name");
+				long albumCount = results.getLong("AlbumCount");
 
-                Artist a = new Artist(id, name);
+				Artist a = new Artist(id, name, albumCount);
 
-                // 3. Lis‰t‰‰n Artist-oliot listalle
-                artists.add(a);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            // 5. Suljetaan resurssit
-            db.close(results, statement, conn);
-        }
+				// 4. Add each artist to list one-by-one
+				artists.add(a);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			// 5. Close all resources
+			db.close(results, statement, conn);
+		}
 
-        // 4. Palautetaan lista
-        return artists;
-    }
+		// 6. Return all artists as a list
+		return artists;
+	}
+
+	public List<Artist> findArtistsByName(String name) {
+
+		Connection conn = db.connect();
+		PreparedStatement statement = null;
+		ResultSet results = null;
+		List<Artist> artists = new ArrayList<>();
+
+		try {
+			statement = conn.prepareStatement("SELECT * FROM Artist WHERE Name = ?");
+			statement.setString(1, name);
+			results = statement.executeQuery();
+
+			while (results.next()) {
+
+				long id = results.getLong("ArtistId");
+				name = results.getString("Name");
+				long albumCount = 0;
+
+				Artist a = new Artist(id, name, albumCount);
+
+				artists.add(a);
+			}
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			db.close(results, statement, conn);
+		}
+
+		return artists;
+	}
+	
+	public List<Artist> searchArtistsByKeyword(String keyword) {
+		Connection conn = db.connect();
+		PreparedStatement statement = null;
+		ResultSet results = null;
+
+		List<Artist> artists = new ArrayList<>();
+
+		try {
+			statement = conn.prepareStatement("SELECT ArtistId, Name, "
+					+ "(SELECT COUNT(*) FROM Album WHERE ArtistId = Artist.ArtistId) AS AlbumCount "
+					+ "FROM Artist "
+					+ "WHERE Name LIKE ?");
+			statement.setString(1, "%" + keyword + "%");
+
+			results = statement.executeQuery();
+
+			while (results.next()) {
+				long artistId = results.getLong("ArtistId");
+				String name = results.getString("Name");
+				long albumCount = results.getLong("AlbumCount");
+
+				artists.add(new Artist(artistId, name, albumCount));
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			db.close(results, statement, conn);
+		}
+
+		return artists;
+	}
 }

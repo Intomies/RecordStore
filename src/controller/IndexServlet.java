@@ -23,11 +23,10 @@ public class IndexServlet extends HttpServlet {
 		
 		
 		
-		List<Artist> allArtists = dao.getAllArtists();
+		List<Artist> allArtists = dao.findAllArtists();
+		
 		//Tulostetaan HTTP-vastaukseen
-		
-		
-		
+
 		req.setAttribute("artists", allArtists);
 		
 		req.getRequestDispatcher("/WEB-INF/views/index.jsp").include(req, resp);

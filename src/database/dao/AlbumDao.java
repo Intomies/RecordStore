@@ -12,38 +12,109 @@ import model.Album;
 import model.Artist;
 
 public class AlbumDao {
-    private ChinookDatabase db = new ChinookDatabase();
+	private ChinookDatabase db = new ChinookDatabase();
 
-    public List<Album> getAlbumsByArtist(Artist artist) {
-        Connection conn = db.connect();
-        PreparedStatement statement = null;
-        ResultSet results = null;
+	public Album findAlbum(long id) {
+		Connection conn = db.connect();
+		PreparedStatement statement = null;
+		ResultSet results = null;
 
-        List<Album> albums = new ArrayList<>();
+		try {
+			statement = conn.prepareStatement("SELECT *, "
+					+ "(SELECT COUNT(*) FROM Track WHERE AlbumId = Album.AlbumId) AS TrackCount, "
+					+ "(SELECT SUM(Milliseconds) FROM Track WHERE AlbumId = Album.AlbumId) AS Milliseconds "
+					+ "FROM Album "
+					+ "WHERE AlbumId = ?");
+			statement.setLong(1, id);
+			results = statement.executeQuery();
 
-        try {
-            statement = conn.prepareStatement("SELECT AlbumId, Title, ArtistId FROM Album WHERE ArtistId = ?");
-            statement.setLong(1, artist.getId());
+			if (results.next()) {
+				String title = results.getString("Title");
+				long albumId = results.getLong("AlbumId");
+				long artistId = results.getLong("ArtistId");
+				long trackCount = results.getLong("TrackCount");
+				long milliseconds = results.getLong("Milliseconds");
 
-            results = statement.executeQuery();
+				return new Album(albumId, title, artistId, trackCount, milliseconds);
+			} else {
+				return null;
+			}
 
-            while (results.next()) {
-                long id = results.getLong("AlbumId");
-                String title = results.getString("Title");
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			db.close(results, statement, conn);
+		}
+	}
 
-                albums.add(new Album(id, title));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            db.close(results, statement, conn);
-        }
+	public List<Album> findAlbumsByArtist(Artist artist) {
+		Connection conn = db.connect();
+		PreparedStatement statement = null;
+		ResultSet results = null;
 
-        return albums;
-    }
+		List<Album> albums = new ArrayList<>();
 
-	public List<Album> findAlbumsByTitle(String keyword) {
-		String  sql = "SELECT * FROM Album WHERE Title LIKE %\"pill%\"";
-		return null;
+		try {
+			statement = conn.prepareStatement("SELECT AlbumId, Title, ArtistId, "
+					+ "(SELECT COUNT(*) FROM Track WHERE AlbumId = Album.AlbumId) AS TrackCount, "
+					+ "(SELECT SUM(Milliseconds) FROM Track WHERE AlbumId = Album.AlbumId) AS Milliseconds "
+					+ "FROM Album "
+					+ "WHERE ArtistId = ?");
+			statement.setLong(1, artist.getId());
+
+			results = statement.executeQuery();
+
+			while (results.next()) {
+				long id = results.getLong("AlbumId");
+				String title = results.getString("Title");
+				long artistId = results.getLong("ArtistId");
+				long trackCount = results.getLong("TrackCount");
+				long milliseconds = results.getLong("Milliseconds");
+
+				albums.add(new Album(id, title, artistId, trackCount, milliseconds));
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			db.close(results, statement, conn);
+		}
+
+		return albums;
+	}
+
+	public List<Album> searchAlbumsByTitle(String keyword) {
+		Connection conn = db.connect();
+		PreparedStatement statement = null;
+		ResultSet results = null;
+
+		List<Album> albums = new ArrayList<>();
+
+		try {
+			statement = conn.prepareStatement("SELECT *, "
+					+ "(SELECT COUNT(*) FROM Track WHERE AlbumId = Album.AlbumId) AS TrackCount, "
+					+ "(SELECT SUM(Milliseconds) FROM Track WHERE AlbumId = Album.AlbumId) AS Milliseconds "
+					+ "FROM Album "
+					+ "WHERE Title LIKE ?");
+			statement.setString(1, "%" + keyword + "%");
+
+			results = statement.executeQuery();
+
+			while (results.next()) {
+				long id = results.getLong("AlbumId");
+				String title = results.getString("Title");
+				long artistId = results.getLong("ArtistId");
+				long trackCount = results.getLong("TrackCount");
+				long milliseconds = results.getLong("Milliseconds");
+
+				albums.add(new Album(id, title, artistId, trackCount, milliseconds));
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			db.close(results, statement, conn);
+		}
+
+		return albums;
 	}
 }
+

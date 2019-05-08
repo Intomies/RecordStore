@@ -2,7 +2,7 @@
 <html>
 
 <jsp:include page="_head.jsp">
-	<jsp:param name="title" value="Search results for" />
+	<jsp:param name="title" value="Albums by ${ artist.getName() }" />
 </jsp:include>
 
 <body>
@@ -13,44 +13,16 @@
 
 	<jsp:include page="_searchForm.jsp" />
 
-	<h2>Search results:</h2>
+	</form>
 
-	<h3>Artists:</h3>
+	<h2>
+		Albums by
+		<c:out value="${ artist.getName() }" />
+	</h2>
 
-	<table>
+	<c:if test="${ !albums.isEmpty() }">
 
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>Artist</th>
-				<th>Albums</th>
-			</tr>
-		</thead>
-
-		<tbody>
-
-			<c:forEach var="artist" items="${ artists }" varStatus="loop">
-
-				<tr>
-
-					<td><c:out value="${ loop.index + 1 }" /></td>
-
-					<td><a href="artist?id=${ artist.getId() }"><c:out
-								value="${ artist.getName() }" /></a></td>
-
-					<td><c:out value="${ artist.getAlbumCount() }" /></td>
-
-				</tr>
-
-			</c:forEach>
-		</tbody>
-
-	</table>
-
-
-	<h3>Albums:</h3>
-
-	<table>
+		<table>
 
 			<thead>
 				<tr>
@@ -83,6 +55,12 @@
 			</tbody>
 
 		</table>
+
+	</c:if>
+	<c:if test="${ albums.isEmpty() }">
+		<div>No albums for this artist :(</div>
+	</c:if>
+
 
 </body>
 </html>

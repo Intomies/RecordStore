@@ -17,30 +17,30 @@ import model.Artist;
 @WebServlet("/artist")
 public class ArtistServlet extends HttpServlet {
 
-    private ArtistDao artistDao = new ArtistDao();
+	private ArtistDao artistDao = new ArtistDao();
 
-    private AlbumDao albumDao = new AlbumDao();
+	private AlbumDao albumDao = new AlbumDao();
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // 1. Get the artist id from the request:
-        String idParameter = request.getParameter("id");
-        long id = Long.parseLong(idParameter); // this may fail due to null value or invalid numeric string
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 
-        // 2. Load artist from the database (may be null if id does not match)
-        Artist artist = artistDao.getArtist(id);
+			throws ServletException, IOException {
+		// 1. Get the artist id from the request:
+		String idParameter = req.getParameter("id");
+		long id = Long.parseLong(idParameter); // this may fail due to null value or invalid numeric string
 
-        // 3. Load all albums from the database for the artist
-        List<Album> albums = albumDao.getAlbumsByArtist(artist);
+		// 2. Load artist from the database (may be null if id does not match)
+		Artist artist = artistDao.findArtist(id);
 
-        // 4. Print the name of the artist on the response
-        response.getWriter().println(artist.getName());
+		// 3. Load all albums from the database for the artist
+		List<Album> albums = albumDao.findAlbumsByArtist(artist);
 
-        response.getWriter().println(); // Empty line
+		// 4. Print the name of the artist on the response
 
-        // Print the titles of all albums for the artist
-        for (Album album : albums) {
-            response.getWriter().println(album.getTitle());
-        }
-    }
+		resp.getWriter().println(); // Empty line
+		req.setAttribute("artist", artist);
+		req.setAttribute("albums", albums);
+
+		// Print the titles of all albums for the artist
+		req.getRequestDispatcher("/WEB-INF/views/artist.jsp").include(req, resp);
+	}
 }

@@ -3,35 +3,48 @@
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Record Store / All Artists</title>
-</head>
+<jsp:include page="_head.jsp">
+	<jsp:param name="title" value="Gregords Inc." />
+</jsp:include>
 <body>
-
-	<h1>Welcome</h1>
 	
-	<form method="get" action="search">
+	<h1>Gregords Inc.</h1>
 	
-	<input type="text" name="keyword"/>
-	<input type="submit" value="Search">
+	<jsp:include page="_searchForm.jsp" />
 	
-	</form>
+	
 
-	<ul>
+	
 
-		<c:forEach var="artist" items="${ artists }">
+	<table>
 
-			<li><a href="artist?id=${ artist.id }"> <c:out
-						value="${ artist.getName() }" />
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Artist</th>
+				<th>Albums</th>
+			</tr>
+		</thead>
 
+		<tbody>
 
-			</a></li>
+			<c:forEach var="artist" items="${ artists }" varStatus="loop">
 
-		</c:forEach>
+				<tr>
 
+					<td><c:out value="${ loop.index + 1 }" /></td>
 
-	</ul>
+					<td><a href="artist?id=${ artist.getId() }"><c:out
+								value="${ artist.getName() }" /></a></td>
+
+					<td><c:out value="${ artist.getAlbumCount() }" /></td>
+
+				</tr>
+
+			</c:forEach>
+		</tbody>
+
+	</table>
 
 </body>
 </html>

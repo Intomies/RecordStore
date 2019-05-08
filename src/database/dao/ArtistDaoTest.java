@@ -13,7 +13,7 @@ public class ArtistDaoTest {
     @Test
     public void artistWithId50IsMetallica() {
         ArtistDao dao = new ArtistDao();
-        Artist artist = dao.getArtist(50);
+        Artist artist = dao.findArtist(50);
 
         assertEquals("Metallica", artist.getName());
     }
@@ -21,7 +21,7 @@ public class ArtistDaoTest {
     @Test
     public void getArtistWithUnknownIdReturnsNull() {
         ArtistDao dao = new ArtistDao();
-        Artist artist = dao.getArtist(-100);
+        Artist artist = dao.findArtist(-100);
 
         assertEquals(null, artist);
     }
@@ -29,7 +29,7 @@ public class ArtistDaoTest {
     @Test
     public void getAllArtistsReturnsArtistsWithCorrectNames() {
         ArtistDao dao = new ArtistDao();
-        List<Artist> allArtists = dao.getAllArtists();
+        List<Artist> allArtists = dao.findAllArtists();
 
         assertEquals("A Cor Do Som", allArtists.get(0).getName());
         assertEquals("Zeca Pagodinho", allArtists.get(allArtists.size() - 1).getName());

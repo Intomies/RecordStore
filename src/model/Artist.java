@@ -1,36 +1,32 @@
 package model;
 
 public class Artist {
-	
-	public long id;
-	public String name;
-	
-	public Artist (long id, String name) {
-		
+
+	private long id;
+	private String name;
+	private long albumCount;
+
+	public Artist(long id, String name, long albumCount) {
+
 		this.id = id;
 		this.name = name;
-		
+		this.albumCount = albumCount;
 	}
 
-	
-	  public long getId() { 
-		  
-		  return id; }
-	 
+	public long getId() {
+
+		return this.id;
+
+	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
-	
-	@Override
 
-	public String toString() {
-		
-		return this.name + " " + this.id;
-		
+	public long getAlbumCount() {
+
+		return this.albumCount;
+
 	}
-	
-	
+
 }
-
-
