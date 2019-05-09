@@ -2,18 +2,27 @@
 <html>
 
 <jsp:include page="_head.jsp">
-	<jsp:param name="title" value="Search results for" />
+	<jsp:param name="title" value="Search for Artists or Albums" />
 </jsp:include>
 
 <body>
-
+	
+	<jsp:include page="_buttons.jsp" />
+	
 	<h1>Gregords Inc.</h1>
+	
+	
 
 	<%-- The form could be included from another file with jsp:include tag --%>
 
 	<jsp:include page="_searchForm.jsp" />
+	
+	<c:if test="${ param.keyword != null }">
 
 	<h2>Search results:</h2>
+	
+	
+	<c:if test="${ artists.size() > 0 }">
 
 	<h3>Artists:</h3>
 
@@ -46,8 +55,13 @@
 		</tbody>
 
 	</table>
-
-
+	</c:if>
+	<c:if test="${ artists.size() == 0 }"> <h2>No Artists Found</h2>
+	</c:if>
+	</c:if>
+	
+	<c:if test="${ param.keyword != null }">
+	<c:if test="${ albums.size() > 0 }">
 	<h3>Albums:</h3>
 
 	<table>
@@ -83,6 +97,11 @@
 			</tbody>
 
 		</table>
+</c:if>
+
+<c:if test="${ albums.size() == 0 }"> <h2>No Albums Found</h2>
+</c:if>
+</c:if>
 
 </body>
 </html>

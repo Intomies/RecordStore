@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,4 +142,44 @@ public class ArtistDao {
 
 		return artists;
 	}
+	
+//	Add artist to database
+	
+	public void addArtist(Artist artist) {
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet generatedKeys = null;
+		
+		try {
+			
+			connection = db.connect();
+			statement = connection.prepareStatement("INSERT INTO Artist (Name)"
+					+ "VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+			
+			statement.setString(1, artist.getName());
+			statement.executeUpdate();
+			
+			generatedKeys = statement.getGeneratedKeys();
+			
+			if(generatedKeys.next()) {
+				
+				long id = generatedKeys.getLong(1);
+				artist.setId(id);
+				
+			}
+			
+		} catch (SQLException e) {
+			
+			throw new RuntimeException(e);
+			
+		} finally {
+			
+			db.close(generatedKeys, statement, connection);
+			
+		}
+		
+	}
+	
+	
 }

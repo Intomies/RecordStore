@@ -29,4 +29,8 @@ public class Artist {
 
 	}
 
+	public void setId(long id) {
+		this.id = id;
+	}
+
 }
