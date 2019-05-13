@@ -1,0 +1,23 @@
+commit 3779479bb2b0b4713132e6606413511b08ebf21a
+Author: Intomies <valtteri.nummi@gmail.com>
+Date:   Thu May 9 11:06:27 2019 +0300
+
+    paivitys: lisatty artistin lisaaminen ja napit eri sivuille
+
+commit 094bd49158b0073c41da4b1e673a0d328cbcb47a
+Author: Intomies <valtteri.nummi@gmail.com>
+Date:   Wed May 8 11:16:14 2019 +0300
+
+    paivitys
+
+commit 2b3ad68edcfe717cd76fcbb54109ee780df59f9f
+Author: Intomies <valtteri.nummi@gmail.com>
+Date:   Wed May 8 11:15:44 2019 +0300
+
+    paivitys
+
+commit e03e7d975c691ae703d164007bb0b4ad78727bae
+Author: Intomies <valtteri.nummi@gmail.com>
+Date:   Tue Apr 30 11:29:14 2019 +0300
+
+    eka commit

@@ -11,18 +11,12 @@
 
 	<h1>Gregords Inc.</h1>
 
-	<%-- The form could be included from another file with jsp:include tag --%>
-
-	
-
-	
-
-	<h2>
-		Albums by
-		<c:out value="${ artist.getName() }" />
-	</h2>
-
 	<c:if test="${ !albums.isEmpty() }">
+
+		<h2>
+			Albums by
+			<c:out value="${ artist.getName() }" />
+		</h2>
 
 		<table>
 
@@ -60,9 +54,12 @@
 
 	</c:if>
 	<c:if test="${ albums.isEmpty() }">
-		<h2>No albums for this artist :(</h2>
+		<h3>
+			No albums for
+			<c:out value="${ artist.getName() }" />
+			:(
+		</h3>
 	</c:if>
-
 
 </body>
 </html>

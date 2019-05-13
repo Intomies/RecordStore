@@ -11,16 +11,15 @@
 
 	<h1>Gregords Inc.</h1>
 
-
 	</form>
 
 	<h2>
 		<c:out value="${ album.getTitle() }" />
 	</h2>
-	<h3>
+	<p>
 		Album by
 		<c:out value="${ artist.getName() }" />
-	</h3>
+	</p>
 
 	<!-- Table Starts: -->
 

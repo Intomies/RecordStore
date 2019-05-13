@@ -17,24 +17,24 @@ import model.Artist;
 @WebServlet("/search")
 public class SearchServlet extends HttpServlet {
 
-    private AlbumDao albumDao = new AlbumDao();
-    
-    private ArtistDao artistDao = new ArtistDao();
+	private AlbumDao albumDao = new AlbumDao();
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // 1. Get the requested keyword
-        String keyword = req.getParameter("keyword");
+	private ArtistDao artistDao = new ArtistDao();
 
-        // 2. Search for albums
-        List<Album> albums = albumDao.searchAlbumsByTitle(keyword);
-        List<Artist> artists = artistDao.searchArtistsByKeyword(keyword);
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 1. Get the requested keyword
+		String keyword = req.getParameter("keyword");
 
-        // 3. Set the albums into a parameter
-        req.setAttribute("albums", albums);
-        req.setAttribute("artists", artists);
+		// 2. Search for albums
+		List<Album> albums = albumDao.searchAlbumsByTitle(keyword);
+		List<Artist> artists = artistDao.searchArtistsByKeyword(keyword);
 
-        // 4. Display results in a nice JSP page
-        req.getRequestDispatcher("/WEB-INF/views/search.jsp").include(req, resp);
-    }
+		// 3. Set the albums into a parameter
+		req.setAttribute("albums", albums);
+		req.setAttribute("artists", artists);
+
+		// 4. Display results in a nice JSP page
+		req.getRequestDispatcher("/WEB-INF/views/search.jsp").include(req, resp);
+	}
 }

@@ -15,37 +15,36 @@ import model.Artist;
 import model.Track;
 
 public class TrackDao {
-    private ChinookDatabase db = new ChinookDatabase();
+	private ChinookDatabase db = new ChinookDatabase();
 
-    public List<Track> getTracksByAlbum(Album album) {
-    	
-    	Connection conn = db.connect();
-        PreparedStatement statement = null;
-        ResultSet results = null;
-        
-        List<Track> tracks = new ArrayList<>();
+	public List<Track> getTracksByAlbum(Album album) {
 
-        try {
-        	statement = conn.prepareStatement("SELECT TrackId, Name, Milliseconds FROM Track WHERE AlbumId = ?");
-            statement.setLong(1, album.getId());
+		Connection conn = db.connect();
+		PreparedStatement statement = null;
+		ResultSet results = null;
 
-            results = statement.executeQuery();
+		List<Track> tracks = new ArrayList<>();
 
-            while (results.next()) {
-                long id = results.getLong("TrackId");
-                String name = results.getString("Name");
-                long time = results.getLong("Milliseconds");
+		try {
+			statement = conn.prepareStatement("SELECT TrackId, Name, Milliseconds FROM Track WHERE AlbumId = ?");
+			statement.setLong(1, album.getId());
 
-                tracks.add(new Track(id, name, time));
-            }
-            
-        }catch (SQLException e) {
+			results = statement.executeQuery();
+
+			while (results.next()) {
+				long id = results.getLong("TrackId");
+				String name = results.getString("Name");
+				long time = results.getLong("Milliseconds");
+
+				tracks.add(new Track(id, name, time));
+			}
+
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-            db.close(results, statement, conn);
-        }
-    	
-    	
-        return tracks;
-    }
+			db.close(results, statement, conn);
+		}
+
+		return tracks;
+	}
 }

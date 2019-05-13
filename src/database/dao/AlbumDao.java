@@ -20,11 +20,10 @@ public class AlbumDao {
 		ResultSet results = null;
 
 		try {
-			statement = conn.prepareStatement("SELECT *, "
-					+ "(SELECT COUNT(*) FROM Track WHERE AlbumId = Album.AlbumId) AS TrackCount, "
-					+ "(SELECT SUM(Milliseconds) FROM Track WHERE AlbumId = Album.AlbumId) AS Milliseconds "
-					+ "FROM Album "
-					+ "WHERE AlbumId = ?");
+			statement = conn.prepareStatement(
+					"SELECT *, (SELECT COUNT(*) FROM Track WHERE AlbumId = Album.AlbumId) AS TrackCount, "
+							+ "(SELECT SUM(Milliseconds) FROM Track WHERE AlbumId = Album.AlbumId) AS Milliseconds "
+							+ "FROM Album " + "WHERE AlbumId = ?");
 			statement.setLong(1, id);
 			results = statement.executeQuery();
 
@@ -58,8 +57,7 @@ public class AlbumDao {
 			statement = conn.prepareStatement("SELECT AlbumId, Title, ArtistId, "
 					+ "(SELECT COUNT(*) FROM Track WHERE AlbumId = Album.AlbumId) AS TrackCount, "
 					+ "(SELECT SUM(Milliseconds) FROM Track WHERE AlbumId = Album.AlbumId) AS Milliseconds "
-					+ "FROM Album "
-					+ "WHERE ArtistId = ?");
+					+ "FROM Album " + "WHERE ArtistId = ?");
 			statement.setLong(1, artist.getId());
 
 			results = statement.executeQuery();
@@ -90,11 +88,10 @@ public class AlbumDao {
 		List<Album> albums = new ArrayList<>();
 
 		try {
-			statement = conn.prepareStatement("SELECT *, "
-					+ "(SELECT COUNT(*) FROM Track WHERE AlbumId = Album.AlbumId) AS TrackCount, "
-					+ "(SELECT SUM(Milliseconds) FROM Track WHERE AlbumId = Album.AlbumId) AS Milliseconds "
-					+ "FROM Album "
-					+ "WHERE Title LIKE ?");
+			statement = conn.prepareStatement(
+					"SELECT *, " + "(SELECT COUNT(*) FROM Track WHERE AlbumId = Album.AlbumId) AS TrackCount, "
+							+ "(SELECT SUM(Milliseconds) FROM Track WHERE AlbumId = Album.AlbumId) AS Milliseconds "
+							+ "FROM Album " + "WHERE Title LIKE ?");
 			statement.setString(1, "%" + keyword + "%");
 
 			results = statement.executeQuery();
@@ -117,4 +114,3 @@ public class AlbumDao {
 		return albums;
 	}
 }
-

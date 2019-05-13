@@ -22,7 +22,7 @@ public class AlbumServlet extends HttpServlet {
 	private AlbumDao albumDao = new AlbumDao();
 
 	private TrackDao trackDao = new TrackDao();
-	
+
 	private ArtistDao artistDao = new ArtistDao();
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -15,22 +15,20 @@ import model.Artist;
 @WebServlet("")
 
 public class IndexServlet extends HttpServlet {
-	
+
 	private ArtistDao dao = new ArtistDao();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		
-		
+
 		List<Artist> allArtists = dao.findAllArtists();
-		
-		//Tulostetaan HTTP-vastaukseen
+
+		// Tulostetaan HTTP-vastaukseen
 
 		req.setAttribute("artists", allArtists);
-		
+
 		req.getRequestDispatcher("/WEB-INF/views/index.jsp").include(req, resp);
-		
+
 	}
 
 }
