@@ -1,0 +1,8 @@
+d516965 (HEAD -> master, origin/master) merge branch 'master' of https://github.com/Intomies/RecordStore
+712f967 paivitysta
+f91c919 paivitys: ¨kohtalaisen valmis versio
+3779479 paivitys: lisatty artistin lisaaminen ja napit eri sivuille
+094bd49 paivitys
+2b3ad68 paivitys
+6176ee5 Initial commit
+e03e7d9 eka commit

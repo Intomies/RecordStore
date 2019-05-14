@@ -16,6 +16,8 @@ import model.Track;
 
 public class TrackDao {
 	private ChinookDatabase db = new ChinookDatabase();
+	
+	//-------------Find all Tracks in an Album using AlbumId and TrackID---------------
 
 	public List<Track> getTracksByAlbum(Album album) {
 

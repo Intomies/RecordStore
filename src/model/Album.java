@@ -39,12 +39,16 @@ public class Album {
 		return this.trackCount;
 
 	}
+	
+	//-------------Returns Albums Total Playtime (00:00) in String---------------
 
 	public String getTime() {
 
 		return millisecondsToTime(this.milliseconds);
 
 	}
+	
+	//-------------Counts Albums Total Playtime from milliseconds given in songs info, then returns it in form 00:00---------------
 
 	private String millisecondsToTime(long time) {
 

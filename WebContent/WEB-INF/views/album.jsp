@@ -11,7 +11,7 @@
 
 	<h1>Gregords Inc.</h1>
 
-	</form>
+	
 
 	<h2>
 		<c:out value="${ album.getTitle() }" />

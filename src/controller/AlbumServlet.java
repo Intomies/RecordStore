@@ -26,21 +26,22 @@ public class AlbumServlet extends HttpServlet {
 	private ArtistDao artistDao = new ArtistDao();
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 1. Get the album id from the request:
+		//  Get the album id from the request:
 		String idParameter = req.getParameter("id");
 		long id = Long.parseLong(idParameter); // this may fail due to null value or invalid numeric string
 
-		// 2. Load album from the database (may be null if id does not match)
-
-		// Artist artist = artistDao.findArtist(id);
+		// Load album from the database (may be null if id does not match)
 
 		Album album = albumDao.findAlbum(id);
+		
+		// Load artistId from album
+		
 		Artist artist = artistDao.findArtist(album.getArtistId());
 
-		// 3. Load all Tracks from the database for the album
+		//  Load all Tracks from the database for the album
 		List<Track> tracks = trackDao.getTracksByAlbum(album);
 
-		// 4. Print the name of the track on the response
+		//  Print the name of the track on the response
 
 		// Print the titles of all tracks for the albums
 
@@ -51,12 +52,6 @@ public class AlbumServlet extends HttpServlet {
 		req.setAttribute("artist", artist);
 
 		req.getRequestDispatcher("/WEB-INF/views/album.jsp").include(req, resp);
-
-		/*
-		 * for (Track track : tracks) { response.getWriter().println(track.getName());
-		 * 
-		 * }
-		 */
 
 	}
 }

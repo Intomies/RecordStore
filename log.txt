@@ -1,3 +1,20 @@
+commit d516965be138c7959de38e001a95d8af7cc6c038
+Merge: 712f967 6176ee5
+Author: Intomies <valtteri.nummi@gmail.com>
+Date:   Mon May 13 09:59:36 2019 +0300
+
+    merge branch 'master' of https://github.com/Intomies/RecordStore
+    
+    -m "im trying to make this work"
+    
+    i
+
+commit 712f9671a794eac5173c38b99646384d539172f8
+Author: Intomies <valtteri.nummi@gmail.com>
+Date:   Mon May 13 09:54:46 2019 +0300
+
+    paivitysta
+
 commit f91c919ef970d9fdf4fef86ac2739cef9c06f37e
 Author: Intomies <valtteri.nummi@gmail.com>
 Date:   Mon May 13 09:23:42 2019 +0300
@@ -21,6 +38,12 @@ Author: Intomies <valtteri.nummi@gmail.com>
 Date:   Wed May 8 11:15:44 2019 +0300
 
     paivitys
+
+commit 6176ee5e1860b87cbc7c56dbdd7d6275837c1ea5
+Author: Intomies <50134594+Intomies@users.noreply.github.com>
+Date:   Tue Apr 30 12:07:55 2019 +0300
+
+    Initial commit
 
 commit e03e7d975c691ae703d164007bb0b4ad78727bae
 Author: Intomies <valtteri.nummi@gmail.com>

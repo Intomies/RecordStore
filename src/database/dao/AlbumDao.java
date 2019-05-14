@@ -13,6 +13,8 @@ import model.Artist;
 
 public class AlbumDao {
 	private ChinookDatabase db = new ChinookDatabase();
+	
+	//-------------Find Album By ID---------------
 
 	public Album findAlbum(long id) {
 		Connection conn = db.connect();
@@ -45,7 +47,9 @@ public class AlbumDao {
 			db.close(results, statement, conn);
 		}
 	}
-
+	
+	//-------------Find Albums By Artist---------------
+	
 	public List<Album> findAlbumsByArtist(Artist artist) {
 		Connection conn = db.connect();
 		PreparedStatement statement = null;
@@ -79,7 +83,9 @@ public class AlbumDao {
 
 		return albums;
 	}
-
+	
+	//-------------Search Albums By Title---------------
+	
 	public List<Album> searchAlbumsByTitle(String keyword) {
 		Connection conn = db.connect();
 		PreparedStatement statement = null;

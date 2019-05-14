@@ -13,6 +13,8 @@ import model.Artist;
 
 public class ArtistDao {
 	private ChinookDatabase db = new ChinookDatabase();
+	
+	//------------Find Artist by ID:--------------
 
 	public Artist findArtist(long id) {
 		Connection conn = db.connect();
@@ -40,6 +42,8 @@ public class ArtistDao {
 			db.close(results, statement, conn);
 		}
 	}
+	
+	//-------------Find All Artists:--------------
 
 	public List<Artist> findAllArtists() {
 		Connection conn = db.connect();
@@ -78,7 +82,9 @@ public class ArtistDao {
 		// 6. Return all artists as a list
 		return artists;
 	}
-
+	
+	//----------Find Artists By Name--------------
+	
 	public List<Artist> findArtistsByName(String name) {
 
 		Connection conn = db.connect();
@@ -110,6 +116,8 @@ public class ArtistDao {
 
 		return artists;
 	}
+	
+	//-------------Search Artists By Keyword-----------------
 	
 	public List<Artist> searchArtistsByKeyword(String keyword) {
 		Connection conn = db.connect();
@@ -143,7 +151,7 @@ public class ArtistDao {
 		return artists;
 	}
 	
-//	Add artist to database
+//	----------------Add new Artist to database-------------------
 	
 	public void addArtist(Artist artist) {
 		
